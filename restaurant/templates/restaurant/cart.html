@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Cart {% endblock %}
+{% block content %}
+<h1 class="cart-title">Your Cart</h1>
+
+{% if cart_items %}
+<table class="cart-table">
+    <thead>
+        <tr>
+            <th>Dish</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr class="cart-item">
+            <td class="dish-name">{{ item.dish.name }}</td>
+            <td class="dish-price">${{ item.dish.price }}</td>
+            <td class="quantity-container">
+                <form method="POST" action="{% url 'update_cart_item' item.id %}" class="quantity-form">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity-input">
+                    <button type="submit" class="btn-update">Update</button>
+                </form>
+            </td>
+            <td class="total-price">${{ item.total_price }}</td>
+            <td>
+                <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-remove">Remove</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3 class="cart-total">Total Price: ${{ total_price }}</h3>
+
+{% else %}
+<p class="empty-cart">Your cart is empty.</p>
+{% endif %}
+
+<a href="{% url 'dish_list' %}" class="btn btn-shopping">Continue Shopping</a>
+{% endblock %}

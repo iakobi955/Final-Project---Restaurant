@@ -1,0 +1,53 @@
+{% if dishes.has_other_pages %}
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if dishes.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; First</a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" href="?page={{ dishes.previous_page_number }}">Previous</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link">Previous</a>
+
+        <li class="page-item disabled">
+          <a class="page-link">&laquo; First</a>
+        </li>
+      {% endif %}
+
+      {% for num in dishes.paginator.page_range %}
+        {% if dishes.number == num %}
+        <li class="page-item active">
+          <a class="page-link">{{ num }}</a></li>
+        {% elif num >= dishes.number|add:'-3' and num <= dishes.number|add:'3' %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if dishes.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ dishes.next_page_number }}">Next</a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" href="?page={{ dishes.paginator.num_pages }}">Last &raquo;</a>
+          </li> 
+  
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link">Next</a>
+        </li>
+
+        <li class="page-item disabled">
+            <a class="page-link">Last &raquo;</a>
+          </li>
+  
+      {% endif %}
+    
+    </ul>
+  </nav>
+{% endif %}

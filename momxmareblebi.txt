@@ -1,0 +1,7 @@
+superuser:
+koba1
+admin123
+
+Users:
+user1
+Pass123.
